@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gratulacje — Wygrałeś iPhone!</title>
+  <style>
+    :root{--bg:#0b1220;--card:#0f1724;--accent:#f9c74f}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,system-ui,Arial,sans-serif;background:linear-gradient(180deg,#081129 0%, #0b1220 60%, #07121a 100%);color:#fff}
+    .stage{height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden;position:relative}
+
+    /* Initially hide all elements */
+    .hidden { display: none; }
+
+    /* Confetti emojis */
+    .confetti{position:absolute;inset:0;pointer-events:none}
+    .confetti span{position:absolute;font-size:28px;opacity:0;animation:confetti 4s linear infinite}
+    @keyframes confetti{0%{transform:translateY(-10vh) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+    /* Card in center that looks like iPhone */
+    .card{width:320px;height:640px;background:linear-gradient(180deg,#ffffff 0%, #f8f9fb 100%);border-radius:34px;box-shadow:0 30px 60px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative}
+    .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:170px;height:30px;background:#081129;border-radius:16px;box-shadow:inset 0 -2px 6px rgba(255,255,255,0.03)}
+    .screen{width:86%;height:78%;background:linear-gradient(180deg,#fff 0%, #e9f3ff 100%);border-radius:18px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px;text-align:center}
+    .phone-title{font-size:18px;font-weight:700;color:#0b1220;margin-bottom:8px}
+    .big-iphone{width:160px;height:320px;border-radius:18px;background:linear-gradient(180deg,#0b1220,#222);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:28px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+
+    h1{font-size:28px;margin:18px 0 8px 0;text-align:center}
+    p.lead{margin:0 0 12px 0;color:#dfeeff}
+
+    /* Pope icons bouncing like DVD logo */
+    .pope{position:absolute;width:100px;height:100px;border-radius:12px;background:linear-gradient(180deg,#fff,#f1f1f1);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 8px 20px rgba(0,0,0,0.45);overflow:hidden}
+    .pope img{width:100%;height:100%;object-fit:cover}
+    .pope.p1{top:18px;left:18px;animation:move1 6s linear infinite}
+    .pope.p2{top:18px;right:18px;animation:move2 5.5s linear infinite}
+    .pope.p3{bottom:18px;left:18px;animation:move3 6.6s linear infinite}
+    .pope.p4{bottom:18px;right:18px;animation:move4 5.2s linear infinite}
+
+    @keyframes move1{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(220px,220px) rotate(20deg)}100%{transform:translate(0,0) rotate(0deg)}}
+    @keyframes move2{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-220px,220px) rotate(-20deg)}100%{transform:translate(0,0) rotate(0deg)}}
+    @keyframes move3{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(220px,-220px) rotate(20deg)}100%{transform:translate(0,0) rotate(0deg)}}
+    @keyframes move4{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-220px,-220px) rotate(-20deg)}100%{transform:translate(0,0) rotate(0deg)}}
+
+    /* Buttons */
+    .controls{margin-top:14px;display:flex;gap:8px}
+    button{padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:#0b1220;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.35)}
+
+    /* small footer */
+    .hint{position:absolute;bottom:14px;font-size:13px;color:#a8b8d6}
+
+    @media (max-width:420px){.card{transform:scale(0.9)}}
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <h1 id="clickStart">Kliknij gdziekolwiek, aby rozpocząć 🎵</h1>
+
+    <div class="confetti hidden" id="confetti"></div>
+
+    <div class="card hidden" id="card">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="phone-title">iPhone 6s — Zwycięzca</div>
+        <div class="big-iphone">📱 iPhone</div>
+        <p style="font-size:13px;color:#2b3b52;margin-top:12px">Numer losu: <strong id="los">000000</strong></p>
+      </div>
+    </div>
+
+    <div class="controls hidden" id="controls">
+      <button id="stopBtn">Zatrzymaj muzykę</button>
+      <button id="closeBtn">Zamknij okno</button>
+      <button id="ytBtn">Otwórz Barka (YouTube)</button>
+    </div>
+
+    <!-- Pope images -->
+    <div class="pope p1 hidden"><img src="https://www.prezydent.pl/storage/image/core_files/2021/10/13/acd7b504e24c760a8598d0c58c418350/jpg/prezydent/articles-single-lg/o1623950129.jpg" alt="papiez-1"></div>
+    <div class="pope p2 hidden"><img src="https://images.steamusercontent.com/ugc/544154344545956752/125260318A6E3AC2B729722D743E1C31C6DBD111/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="papiez-2"></div>
+    <div class="pope p3 hidden"><img src="https://avatars.fastly.steamstatic.com/8f0eec718c9728021198d899d46073cbffa519bc_full.jpg" alt="papiez-3"></div>
+    <div class="pope p4 hidden"><img src="https://splendor24.pl/environment/cache/images/500_500_productGfx_32072/swiety-jan-pawel-ii-obraz-do-oprawienia-format.webp" alt="papiez-4"></div>
+
+    <!-- Audio -->
+    <audio id="audio" loop>
+      <source src="barka.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const clickStart = document.getElementById('clickStart');
+    const confetti = document.getElementById('confetti');
+    const card = document.getElementById('card');
+    const controls = document.getElementById('controls');
+    const audio = document.getElementById('audio');
+    const popes = document.querySelectorAll('.pope');
+
+    let started = false;
+
+    stage.addEventListener('click', () => {
+      if (started) return;
+      started = true;
+
+      // Hide click message
+      clickStart.classList.add('hidden');
+
+      // Show everything
+      confetti.classList.remove('hidden');
+      card.classList.remove('hidden');
+      controls.classList.remove('hidden');
+      popes.forEach(p => p.classList.remove('hidden'));
+
+      // Randomize ticket
+      document.getElementById('los').textContent = Math.floor(Math.random()*900000+100000);
+
+      // Create confetti emojis
+      const emojis = ['🎉','🎊','✨','🎈','🥳'];
+      for(let i=0;i<40;i++){
+        const s = document.createElement('span');
+        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.style.left = Math.random()*100 + '%';
+        s.style.top = (Math.random()*-20) + '%';
+        s.style.fontSize = (14+Math.random()*36)+'px';
+        s.style.animationDelay = (Math.random()*4)+'s';
+        s.style.opacity = Math.random();
+        confetti.appendChild(s);
+      }
+
+      // Play audio
+      audio.play().catch(err => console.log("Autoplay zablokowany:", err));
+    });
+
+    // Buttons
+    document.getElementById('stopBtn').addEventListener('click', e => { e.stopPropagation(); audio.pause(); });
+    document.getElementById('closeBtn').addEventListener('click', e => { e.stopPropagation(); try{ window.close(); }catch{} });
+    document.getElementById('ytBtn').addEventListener('click', e => { e.stopPropagation(); window.open('https://www.youtube.com/watch?v=1dOt_VcbgyA','_blank'); });
+
+    document.addEventListener('selectstart', e => e.preventDefault());
+  </script>
+</body>
+</html>
